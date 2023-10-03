@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen-types": "supabase gen types typescript --linked > types/supabase.ts"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.8.1",
@@ -24,6 +25,7 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "postcss": "latest",
+    "supabase": "^1.100.1",
     "tailwindcss": "latest",
     "typescript": "latest"
   }

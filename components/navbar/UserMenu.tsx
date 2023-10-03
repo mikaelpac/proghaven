@@ -18,11 +18,13 @@ const UserMenu = () => {
       <div className="flex flex-row items-center gap-3">
         <div>
           <Link href="/login">
-            <div className="bg-red-500 px-4 py-2 rounded-md">Login</div>
+            <div className="bg-red-500 px-4 py-2 rounded-md text-sm md:text-md">
+              Login
+            </div>
           </Link>
         </div>
       </div>
-      {/*  {isOpen && (
+      {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[200px] bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
             <>
@@ -31,7 +33,7 @@ const UserMenu = () => {
             </>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
