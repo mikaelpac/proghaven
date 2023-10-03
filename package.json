@@ -12,8 +12,11 @@
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/supabase-js": "^2.36.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "lucide-react": "^0.284.0",
     "next": "latest",
+    "radix-ui": "^1.0.1",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^4.11.0",

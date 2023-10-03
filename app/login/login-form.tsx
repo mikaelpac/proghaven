@@ -4,7 +4,7 @@ import { useAuth } from "@/components/providers/supabase-auth-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/seperator";
+import { Separator } from "@/components/ui/separator";
 import { Github, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,7 +13,8 @@ const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { signInWithEmail, signInWithGithub, user } = useAuth();
+  const { signInWithEmail, signInWithGithub, signInWithSpotify, user } =
+    useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,31 +33,26 @@ const LoginForm = () => {
   // Check if there is a user
   useEffect(() => {
     if (user) {
+      console.log(user);
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
 
   return (
-    <div className="flex items-center justify-center w-full h-full px-8">
+    <div className="flex items-center justify-center w-full h-full px-8 mt-16">
       {/* Main Container */}
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-lg bg-white p-6 rounded-md">
         {/* Text */}
-        <div>
-          <h1 className="text-4xl font-bold">Login</h1>
-          <p className="mt-2 text-neutral-600">
-            Welcome to the{" "}
-            <span className="font-semibold text-neutral-800">
-              Supabase & Next.js 13 Auth Starter.
-            </span>{" "}
-            Please login your account by email or the Github account.
-          </p>
-        </div>
+
+        <h1 className="text-4xl font-bold">Login</h1>
+
         {/* Github Button */}
         <Button
-          onClick={signInWithGithub}
+          onClick={signInWithSpotify}
+          variant="spotify"
           className="flex items-center w-full gap-2 mt-6"
         >
-          Login with Github <Github size="16" />
+          Login with Spotify
         </Button>
         {/* Seperator */}
         <div className="flex items-center my-8">

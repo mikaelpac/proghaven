@@ -8,3 +8,7 @@ body,
   height: 100%;
   background-color: #cccccc;
 }
+
+.spotify-button {
+  background-color: #1db954;
+}

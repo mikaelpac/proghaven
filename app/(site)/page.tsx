@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="container mx-auto p-4 max-w-[1200px]">
+    <div className="container mx-auto p-4 max-w-[1100px]">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* New Reviews (2/3 of space on large screens) */}
         <div className="p-4 bg-white shadow-lg rounded-lg lg:col-span-2">
