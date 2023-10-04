@@ -1,12 +1,27 @@
 "use client";
 
-import { AiOutlineMenu } from "react-icons/ai";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOut, Settings, User, UserCircle2 } from "lucide-react";
 
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 
-const UserMenu = () => {
+interface UserMenuProps {
+  username: string | null;
+  signOut: () => Promise<void>;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ username, signOut }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -14,27 +29,30 @@ const UserMenu = () => {
   }, []);
 
   return (
-    <div className="relative">
-      <div className="flex flex-row items-center gap-3">
-        <div>
-          <Link href="/login">
-            <div className="bg-red-500 px-4 py-2 rounded-md text-sm md:text-md">
-              Login
-            </div>
-          </Link>
-        </div>
-      </div>
-      {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[200px] bg-white overflow-hidden right-0 top-12 text-sm">
-          <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem onClick={() => {}} label="Login" />
-              <MenuItem onClick={() => {}} label="Sign up" />
-            </>
-          </div>
-        </div>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <UserCircle2 color="red" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>{username || "My Account"}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => console.log("aight")}>
+            <User className="w-4 h-4 mr-2" />
+            <span>Profile</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Settings className="w-4 h-4 mr-2" />
+            <span>Settings</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={signOut}>
+          <LogOut className="w-4 h-4 mr-2" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

@@ -25,9 +25,14 @@ const Navbar = () => {
             <div className="flex flex-row items-center justify-between gap-6">
               <NavItems />
               {user ? (
-                <UserCircle2 color="red" onClick={signOut} />
+                <UserMenu username={user?.username || ""} signOut={signOut} />
               ) : (
-                <div onClick={() => router.push("/login")}>Login</div>
+                <div
+                  className="bg-red-500 px-4 py-2 rounded-md cursor-pointer"
+                  onClick={() => router.push("/login")}
+                >
+                  Login
+                </div>
               )}
             </div>
           </div>
