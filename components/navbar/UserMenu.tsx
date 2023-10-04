@@ -6,10 +6,8 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 
-const UserMenu = (user: any) => {
+const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(user);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
