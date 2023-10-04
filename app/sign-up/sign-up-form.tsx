@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Spinner from "@/components/ui/spinner";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -14,12 +15,15 @@ const SignUpForm = () => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { signUpWithEmail } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     // Check if passwords match
     if (password !== passwordConfirm) {
@@ -32,16 +36,22 @@ const SignUpForm = () => {
       const error = await signUpWithEmail(email, password, userName);
 
       if (error) {
+        setLoading(false);
         setError(error);
       } else {
         // Sign-up successful, you can now show a success message
         setSuccessMsg(
-          "Sign-up successful! Please check your inbox and confirm your email"
+          "Sign-up successful! Please check your inbox and confirm your email."
         );
         // Optional: You can redirect the user to the login page after a successful sign-up
-        // router.push("login");
+        // Optional: Add a delay and then redirect
+        setTimeout(() => {
+          setLoading(false);
+          router.push("/login"); // Redirect to login page after 5 seconds
+        }, 3000);
       }
     } catch (error) {
+      setLoading(false);
       console.log("Something went wrong!");
     }
   };
@@ -59,7 +69,11 @@ const SignUpForm = () => {
           <div className="mt-6 space-y-6">
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label>Username</Label>
@@ -91,14 +105,20 @@ const SignUpForm = () => {
           {successMsg && (
             <div className="mt-4 text-green-500">{successMsg}</div>
           )}
-          <Button
-            variant="subtle"
-            type="submit"
-            className="flex items-center w-full gap-2 mt-6"
-            onClick={() => handleSubmit}
-          >
-            Sign Up
-          </Button>
+          {!loading ? (
+            <Button
+              variant="subtle"
+              type="submit"
+              className="flex items-center w-full gap-2 mt-6"
+              onClick={() => handleSubmit}
+            >
+              Sign Up
+            </Button>
+          ) : (
+            <div className="justify-center flex my-6">
+              <Spinner loading={loading} />
+            </div>
+          )}
         </form>
         <div
           className="mt-4 text-center cursor-pointer"

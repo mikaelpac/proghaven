@@ -25,7 +25,7 @@ const Navbar = () => {
             <div className="flex flex-row items-center justify-between gap-6">
               <NavItems />
               {user ? (
-                <UserCircle2 color="red" />
+                <UserCircle2 color="red" onClick={signOut} />
               ) : (
                 <div onClick={() => router.push("/login")}>Login</div>
               )}

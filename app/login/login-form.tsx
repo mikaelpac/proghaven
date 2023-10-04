@@ -8,11 +8,13 @@ import { Separator } from "@/components/ui/separator";
 import { Github, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Spinner from "@/components/ui/spinner";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const { signInWithEmail, signInWithGithub, signInWithSpotify, user } =
     useAuth();
   const router = useRouter();
@@ -20,12 +22,16 @@ const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
       const error = await signInWithEmail(email, password);
       if (error) {
+        setLoading(false);
         setError(error);
       }
     } catch (error) {
+      console.log(error);
+      setLoading(false);
       console.log("Something went wrong!");
     }
   };
@@ -53,6 +59,7 @@ const LoginForm = () => {
         >
           Login with Spotify
         </Button>
+
         {/* Seperator */}
         <div className="flex items-center my-8">
           <Separator /> <span className="mx-6">OR</span> <Separator />
@@ -63,7 +70,11 @@ const LoginForm = () => {
           <div className="mt-6 space-y-6">
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label>Password</Label>
@@ -76,14 +87,21 @@ const LoginForm = () => {
           </div>
           {/* Error */}
           {error && <div className="mt-4 text-red-500">{error}</div>}
-          <Button
-            variant="subtle"
-            type="submit"
-            className="flex items-center w-full gap-2 mt-6"
-          >
-            Login with Email
-            <Mail size="16" />
-          </Button>
+          {/*   Show spinner if loading state is not active */}
+          {!loading ? (
+            <Button
+              variant="subtle"
+              type="submit"
+              className="flex items-center w-full gap-2 mt-6"
+            >
+              Login with Email
+              <Mail size="16" />
+            </Button>
+          ) : (
+            <div className="justify-center flex my-6">
+              <Spinner loading={loading} />
+            </div>
+          )}
         </form>
         <div
           className="mt-4 text-center cursor-pointer"
