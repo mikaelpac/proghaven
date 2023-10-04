@@ -6,9 +6,13 @@ import { useAuth } from "@/components/providers/supabase-auth-provider";
 import Logo from "./Logo";
 import NavItems from "./NavItems";
 import UserMenu from "./UserMenu";
+import { useRouter } from "next/navigation";
+import { UserCircle2 } from "lucide-react";
 
 const Navbar = () => {
   const { user, signOut } = useAuth();
+
+  const router = useRouter();
 
   console.log(user);
 
@@ -20,7 +24,11 @@ const Navbar = () => {
             <Logo />
             <div className="flex flex-row items-center justify-between gap-6">
               <NavItems />
-              {user ? <div onClick={signOut}>Logged in</div> : <div>Login</div>}
+              {user ? (
+                <UserCircle2 color="red" />
+              ) : (
+                <div onClick={() => router.push("/login")}>Login</div>
+              )}
             </div>
           </div>
         </Container>

@@ -4,59 +4,55 @@ import { useAuth } from "@/components/providers/supabase-auth-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Github, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const [email, setEmail] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { signInWithEmail, signInWithGithub, signInWithSpotify, user } =
-    useAuth();
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const { signUpWithEmail } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+
+    // Check if passwords match
+    if (password !== passwordConfirm) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const error = await signInWithEmail(email, password);
+      // Call signUpWithEmail function
+      const error = await signUpWithEmail(email, password, userName);
+
       if (error) {
         setError(error);
+      } else {
+        // Sign-up successful, you can now show a success message
+        setSuccessMsg(
+          "Sign-up successful! Please check your inbox and confirm your email"
+        );
+        // Optional: You can redirect the user to the login page after a successful sign-up
+        // router.push("login");
       }
     } catch (error) {
       console.log("Something went wrong!");
     }
   };
 
-  // Check if there is a user
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
   return (
     <div className="flex items-center justify-center w-full h-full px-8 mt-16">
       {/* Main Container */}
       <div className="w-full max-w-lg bg-white p-6 rounded-md">
         {/* Text */}
+        <h1 className="text-4xl font-bold">Sign Up</h1>
 
-        <h1 className="text-4xl font-bold">Login</h1>
-
-        {/* Github Button */}
-        <Button
-          onClick={signInWithSpotify}
-          variant="spotify"
-          className="flex items-center w-full gap-2 mt-6"
-        >
-          Login with Spotify
-        </Button>
-        {/* Seperator */}
-        <div className="flex items-center my-8">
-          <Separator /> <span className="mx-6">OR</span> <Separator />
-        </div>
         {/* Form Container */}
         <form onSubmit={handleSubmit}>
           {/* Inputs Container */}
@@ -66,6 +62,13 @@ const LoginForm = () => {
               <Input value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="space-y-2">
+              <Label>Username</Label>
+              <Input
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
               <Label>Password</Label>
               <Input
                 type="password"
@@ -73,28 +76,40 @@ const LoginForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <div className="space-y-2">
+              <Label>Confirm password</Label>
+              <Input
+                type="password"
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+              />
+            </div>
           </div>
           {/* Error */}
           {error && <div className="mt-4 text-red-500">{error}</div>}
+          {/* Success message */}
+          {successMsg && (
+            <div className="mt-4 text-green-500">{successMsg}</div>
+          )}
           <Button
             variant="subtle"
             type="submit"
             className="flex items-center w-full gap-2 mt-6"
+            onClick={() => handleSubmit}
           >
-            Login with Email
-            <Mail size="16" />
+            Sign Up
           </Button>
         </form>
         <div
           className="mt-4 text-center cursor-pointer"
-          onClick={() => router.push("sign-up")}
+          onClick={() => router.push("login")}
         >
-          Don&apos;t have an account?{" "}
-          <span className="font-bold underline">Sign up</span>
+          Already have an account?{" "}
+          <span className="font-bold underline">Sign in</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

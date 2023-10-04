@@ -15,6 +15,11 @@ interface ContextI {
   signOut: () => Promise<void>;
   signInWithGithub: () => Promise<void>;
   signInWithSpotify: () => Promise<void>;
+  signUpWithEmail: (
+    email: string,
+    password: string,
+    username: string
+  ) => Promise<string | null>;
   signInWithEmail: (email: string, password: string) => Promise<string | null>;
 }
 
@@ -26,6 +31,8 @@ const Context = createContext<ContextI>({
   signOut: async () => {},
   signInWithGithub: async () => {},
   signInWithSpotify: async () => {},
+  signUpWithEmail: async (email: string, password: string, userName: string) =>
+    null,
   signInWithEmail: async (email: string, password: string) => null,
 });
 
@@ -67,6 +74,29 @@ export default function SupabaseAuthProvider({
   const signOut = async () => {
     await supabase.auth.signOut();
     router.push("/login");
+  };
+
+  const signUpWithEmail = async (
+    email: string,
+    password: string,
+    username: string
+  ) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          username: username,
+        },
+      },
+    });
+
+    if (error) {
+      return error.message;
+    }
+
+    return null;
   };
 
   // Sign-In with Github
@@ -117,6 +147,7 @@ export default function SupabaseAuthProvider({
     signInWithGithub,
     signInWithSpotify,
     signInWithEmail,
+    signUpWithEmail,
   };
 
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
