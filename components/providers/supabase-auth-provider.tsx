@@ -44,12 +44,14 @@ export default function SupabaseAuthProvider({
     const { data: user, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("auth_uid", serverSession?.user?.id)
+      .eq("id", serverSession?.user?.id as string)
       .single();
     if (error) {
-      console.log(error);
+      console.error(error);
+      console.log("its fucked");
       return null;
     } else {
+      console.log("now this shit worked!");
       return user;
     }
   };

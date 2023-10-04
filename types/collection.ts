@@ -1,3 +1,3 @@
 import { Database } from "./supabase";
 
-export type UserType = Database["public"]["Tables"]["users"]["Row"];
+export type UserType = Database["public"]["Tables"]["profiles"]["Row"];

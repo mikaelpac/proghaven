@@ -34,35 +34,39 @@ export interface Database {
   }
   public: {
     Tables: {
-      users: {
+      profiles: {
         Row: {
-          auth_uid: string
-          created_at: string
-          email: string
-          id: number
-          profile_picture_url: string | null
-          role: string
-          username: string
+          avatar_url: string | null
+          email: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+          username: string | null
         }
         Insert: {
-          auth_uid: string
-          created_at?: string
-          email: string
-          id?: number
-          profile_picture_url?: string | null
-          role?: string
-          username: string
+          avatar_url?: string | null
+          email?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
+          username?: string | null
         }
         Update: {
-          auth_uid?: string
-          created_at?: string
-          email?: string
-          id?: number
-          profile_picture_url?: string | null
-          role?: string
-          username?: string
+          avatar_url?: string | null
+          email?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+          username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

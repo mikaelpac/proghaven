@@ -33,7 +33,6 @@ const LoginForm = () => {
   // Check if there is a user
   useEffect(() => {
     if (user) {
-      console.log(user);
       router.push("/");
     }
   }, [user, router]);

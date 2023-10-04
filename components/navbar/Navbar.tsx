@@ -8,14 +8,9 @@ import NavItems from "./NavItems";
 import UserMenu from "./UserMenu";
 
 const Navbar = () => {
-  const user = useAuth();
+  const { user, signOut } = useAuth();
 
-  user.signOut();
-
-  useEffect(() => {
-    if (user) {
-    }
-  }, [user]);
+  console.log(user);
 
   return (
     <div className=" w-full bg-black z-10">
@@ -25,7 +20,7 @@ const Navbar = () => {
             <Logo />
             <div className="flex flex-row items-center justify-between gap-6">
               <NavItems />
-              <UserMenu user={user} />
+              {user ? <div onClick={signOut}>Logged in</div> : <div>Login</div>}
             </div>
           </div>
         </Container>
