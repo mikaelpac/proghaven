@@ -1,6 +1,7 @@
 "use client";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
+import ArtistSearch from "@/components/reviews/ArtistSeach";
 
 const Reviews = () => {
   const apiKey = "";
@@ -35,6 +36,7 @@ const Reviews = () => {
     <Container>
       <div>Reviews</div>
       <Button onClick={handleClick}>Submit review</Button>
+      <ArtistSearch />
     </Container>
   );
 };
