@@ -8,10 +8,10 @@ const Logo = () => {
 
   return (
     <div
-      className="flex justify-start cursor-pointer xl:text-2xl md:text-xl text-md px-2"
+      className="flex justify-start cursor-pointer xl:text-2xl md:text-xl text-md md:px-0 px-2"
       onClick={() => router.push("/")}
     >
-      <span className="font-semibold">Prog</span>
+      <span className="font-semibold text-white">Prog</span>
       <span className="text-red-600 font-semibold">haven</span>
     </div>
   );

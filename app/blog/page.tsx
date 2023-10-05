@@ -1,5 +1,11 @@
+import Container from "@/components/Container";
+
 const Blog = () => {
-  return <div>Blog here</div>;
+  return (
+    <Container>
+      <div>Blog here</div>
+    </Container>
+  );
 };
 
 export default Blog;

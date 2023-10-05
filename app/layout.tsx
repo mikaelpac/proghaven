@@ -12,6 +12,7 @@ import SupabaseProvider from "@/components/providers/supabase-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/footer/footer";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/supabase";
 
@@ -34,7 +35,10 @@ export default async function RootLayout({
         <SupabaseProvider>
           <SupabaseAuthProvider serverSession={session}>
             <Navbar />
-            {children}
+            <div className="flex flex-col min-h-screen">
+              <div className="flex-grow">{children}</div>
+            </div>
+            <Footer />
           </SupabaseAuthProvider>
         </SupabaseProvider>
       </body>

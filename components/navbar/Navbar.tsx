@@ -14,8 +14,6 @@ const Navbar = () => {
 
   const router = useRouter();
 
-  console.log(user);
-
   return (
     <div className=" w-full bg-black z-10">
       <div className=" md:py-3 py-2">
@@ -28,7 +26,7 @@ const Navbar = () => {
                 <UserMenu username={user?.username || ""} signOut={signOut} />
               ) : (
                 <div
-                  className="bg-red-500 px-4 py-2 rounded-md cursor-pointer"
+                  className="bg-red-600 px-4 py-2 rounded-md cursor-pointer"
                   onClick={() => router.push("/login")}
                 >
                   Login

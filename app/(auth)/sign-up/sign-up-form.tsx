@@ -61,7 +61,7 @@ const SignUpForm = () => {
       {/* Main Container */}
       <div className="w-full max-w-lg bg-white p-6 rounded-md">
         {/* Text */}
-        <h1 className="text-4xl font-bold">Sign Up</h1>
+        <h1 className="text-4xl font-bold text-center">Sign up</h1>
 
         {/* Form Container */}
         <form onSubmit={handleSubmit}>

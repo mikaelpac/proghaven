@@ -11,7 +11,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Settings, User, UserCircle2 } from "lucide-react";
+import { LogOut, Settings, User, UserCircle2, Library } from "lucide-react";
 
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
@@ -31,7 +31,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, signOut }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <UserCircle2 color="red" />
+        <div className="cursor-pointer">
+          <UserCircle2 color="red" size={28} />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{username || "My Account"}</DropdownMenuLabel>
@@ -44,6 +46,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, signOut }) => {
           <DropdownMenuItem>
             <Settings className="w-4 h-4 mr-2" />
             <span>Settings</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Library className="w-4 h-4 mr-2" />
+            <span>My reviews</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
