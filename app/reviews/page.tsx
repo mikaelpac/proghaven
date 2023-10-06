@@ -1,7 +1,7 @@
 "use client";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
-import ArtistSearch from "@/components/reviews/ArtistSeach";
+import ArtistSearch from "@/components/reviews/ArtistSearch";
 
 const Reviews = () => {
   const apiKey = "";

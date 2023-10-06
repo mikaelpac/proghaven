@@ -21,9 +21,11 @@ const ArtistSearch = () => {
     "&",
   ];
 
+  //TODO: implement spinner so that abour 200 millisecods after user stops typing -> show loader, and at 800milliseconds later show results
+
   useEffect(() => {
     // Function to fetch data after a delay
-    const fetchData = async () => {
+    const handleSearch = async () => {
       try {
         setError(null); // Clear any previous errors
 
@@ -62,7 +64,7 @@ const ArtistSearch = () => {
       if (timer) {
         clearTimeout(timer); // Clear the previous timer if it exists
       }
-      timer = setTimeout(fetchData, 500); // Delay for 1000 milliseconds (1 second)
+      timer = setTimeout(handleSearch, 500); // Delay for 1000 milliseconds (1 second)
     }
 
     // Clean up the timer when the component unmounts

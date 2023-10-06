@@ -1,21 +1,39 @@
+// server/routes/api/lastfm.ts
+
 import { NextResponse } from "next/server";
 
 const apiKey = process.env.LAST_FM_API_KEY;
 const baseUrl = "http://ws.audioscrobbler.com/2.0/";
 
 export async function GET(request: Request) {
-  console.log("API Key:", apiKey);
   const { searchParams } = new URL(request.url);
-  const search = searchParams.get("search");
-  const query = `?method=artist.search&artist=${search}&api_key=${apiKey}&format=json`;
+  console.log(searchParams);
+  const artist = searchParams.get("artist");
+  const album = searchParams.get("album");
+  const searchQuery = searchParams.get("search");
 
-  /*  if (!searchInput) {
-    return new Response("Query parameter 'search_input' is required.", {
-      status: 400,
-    }); */
+  let query;
+
+  if (album && artist) {
+    // If an album and artist are specified, fetch album info
+    query = `?method=album.getinfo&artist=${artist}&album=${album}&api_key=${apiKey}&format=json`;
+  } else if (searchQuery) {
+    // If 'search' is present, fetch artist search results
+    query = `?method=artist.search&artist=${searchQuery}&limit=7&api_key=${apiKey}&format=json`;
+  } else if (artist) {
+    // If 'artist' is present, fetch top albums by the artist
+    query = `?method=artist.getTopAlbums&artist=${artist}&limit=8&api_key=${apiKey}&format=json`;
+  } else {
+    // If neither 'album', 'search', nor 'artist' is present, return an error
+    return new Response(
+      "Query parameter 'artist', 'search', or 'album' is required.",
+      {
+        status: 400,
+      }
+    );
+  }
 
   try {
-    console.log(baseUrl + query);
     // Fetch data from Last.fm API
     const response = await fetch(baseUrl + query);
     if (!response.ok) {
@@ -24,8 +42,6 @@ export async function GET(request: Request) {
         status: response.status,
       });
     }
-
-    console.log(response.body);
 
     // Parse and return the JSON response
     const data = await response.json();
