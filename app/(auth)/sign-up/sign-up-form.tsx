@@ -107,7 +107,6 @@ const SignUpForm = () => {
           )}
           {!loading ? (
             <Button
-              variant="subtle"
               type="submit"
               className="flex items-center w-full gap-2 mt-6"
               onClick={() => handleSubmit}

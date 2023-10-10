@@ -15,28 +15,30 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <div className=" w-full bg-black z-10">
-      <div className=" md:py-3 py-2">
-        <Container>
-          <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
-            <Logo />
-            <div className="flex flex-row items-center justify-between gap-6">
-              <NavItems />
-              {user ? (
-                <UserMenu username={user?.username || ""} signOut={signOut} />
-              ) : (
-                <div
-                  className="bg-red-600 px-4 py-2 rounded-md cursor-pointer"
-                  onClick={() => router.push("/login")}
-                >
-                  Login
-                </div>
-              )}
+    <nav>
+      <div className=" w-full bg-black z-10">
+        <div className=" md:py-3 py-2">
+          <Container>
+            <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
+              <Logo />
+              <div className="flex flex-row items-center justify-between gap-6">
+                <NavItems />
+                {user ? (
+                  <UserMenu username={user?.username || ""} signOut={signOut} />
+                ) : (
+                  <div
+                    className="bg-red-600 px-4 py-2 rounded-md cursor-pointer"
+                    onClick={() => router.push("/login")}
+                  >
+                    Login
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

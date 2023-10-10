@@ -1,10 +1,10 @@
 "use client";
 
 import { useAuth } from "@/components/providers/supabase-auth-provider";
-import { Button } from "@/components/ui/button";
+/* import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/separator"; */
 import { Github, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -45,13 +45,9 @@ const LoginForm = () => {
 
   return (
     <div className="flex items-center justify-center w-full h-full px-8 mt-16">
-      {/* Main Container */}
-      <div className="w-full max-w-lg bg-white p-6 rounded-md">
-        {/* Text */}
-
+      {/*  <div className="w-full max-w-lg bg-white p-6 rounded-md">
         <h1 className="text-4xl font-bold">Login</h1>
 
-        {/* Github Button */}
         <Button
           onClick={signInWithSpotify}
           variant="spotify"
@@ -60,13 +56,11 @@ const LoginForm = () => {
           Login with Spotify
         </Button>
 
-        {/* Seperator */}
         <div className="flex items-center my-8">
           <Separator /> <span className="mx-6">OR</span> <Separator />
         </div>
-        {/* Form Container */}
+
         <form onSubmit={handleSubmit}>
-          {/* Inputs Container */}
           <div className="mt-6 space-y-6">
             <div className="space-y-2">
               <Label>Email</Label>
@@ -85,9 +79,9 @@ const LoginForm = () => {
               />
             </div>
           </div>
-          {/* Error */}
+
           {error && <div className="mt-4 text-red-500">{error}</div>}
-          {/*   Show spinner if loading state is not active */}
+
           {!loading ? (
             <Button
               variant="subtle"
@@ -110,7 +104,7 @@ const LoginForm = () => {
           Don&apos;t have an account?{" "}
           <span className="font-bold underline">Sign up</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
