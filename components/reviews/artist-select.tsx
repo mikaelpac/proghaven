@@ -1,11 +1,16 @@
-"use client";
-import { useState, useEffect } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+// ArtistSelect.tsx
+import React, { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input"; // Update with your import path
+import DropDownItem from "../ui/dropdown/drop-down-item"; // Update with your import path
+import DropDown from "../ui/dropdown/drop-down"; // Update with your import path
 
-const ArtistSelect = () => {
+interface ArtistSelectProps {
+  onArtistSelect: (artist: string) => void;
+}
+
+const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
   const [searchInput, setSearchInput] = useState<string>("");
-  const [selectedArtist, setSelectedArtist] = useState<string>("");
+  const [selectedArtist, setSelectedArtist] = useState<string>(""); // Add selectedArtist state
   const [artists, setArtists] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -25,8 +30,19 @@ const ArtistSelect = () => {
     "&",
   ];
 
+  const handleArtistSelect = (selectedItem: string) => {
+    setSelectedArtist(selectedItem);
+    setSearchInput(selectedItem);
+    setIsDropdownOpen(false); // Close the dropdown when an artist is selected
+  };
+
   useEffect(() => {
     const handleSearch = async () => {
+      if (searchInput === selectedArtist) {
+        // Prevent search when the search input is the same as the selected artist
+        return;
+      }
+
       try {
         setError(null);
         const response = await fetch(`api/lastfm?search=${searchInput}`);
@@ -71,27 +87,32 @@ const ArtistSelect = () => {
         clearTimeout(timer);
       }
     };
-  }, [searchInput]);
+  }, [searchInput, selectedArtist]); // Add selectedArtist as a dependency
 
-  const handleArtistSelect = (selectedItem: string) => {
-    setSelectedArtist(selectedItem);
-    setIsDropdownOpen(false); // Close the dropdown when an artist is selected
-  };
+  console.log(error);
 
   return (
-    <div className="flex flex-row gap-4">
-      <Input type="email" placeholder="Search for artist" />
-      <Button>Continue</Button>
-      {/*  {isDropdownOpen && (
-        <Dropdown items={artists} onSelect={handleArtistSelect} />
-      )} */}
-
-      {error && <p className="error">{error}</p>}
-
-      {selectedArtist && (
-        <div>
-          <h2>Selected Artist: {selectedArtist}</h2>
-        </div>
+    <div className="flex flex-col">
+      <Input
+        placeholder="Find artist"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+      />
+      {error && <p className="text-red-600 ml-2 mt-2 text-xs">{error}</p>}
+      {isDropdownOpen && (
+        <DropDown>
+          {artists.map((artist, index) => {
+            return (
+              <DropDownItem
+                name={artist}
+                Icon={null}
+                onClick={() => handleArtistSelect(artist)}
+                isLast={index === artists.length - 1}
+                key={artist}
+              />
+            );
+          })}
+        </DropDown>
       )}
     </div>
   );
