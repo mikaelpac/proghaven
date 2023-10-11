@@ -1,8 +1,10 @@
 // ArtistSelect.tsx
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input"; // Update with your import path
+import { Label } from "@/components/ui/label"; // Update with your import path
 import DropDownItem from "../ui/dropdown/drop-down-item"; // Update with your import path
 import DropDown from "../ui/dropdown/drop-down"; // Update with your import path
+import { excludeStrings } from "@/utils/constants";
 
 interface ArtistSelectProps {
   onArtistSelect: (artist: string) => void;
@@ -16,23 +18,10 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   let timer: NodeJS.Timeout | null = null;
 
-  const excludeStrings = [
-    "ft.",
-    "feat",
-    ", the",
-    ",",
-    ".",
-    "-",
-    '"',
-    "♪",
-    "www.",
-    ".com",
-    "&",
-  ];
-
   const handleArtistSelect = (selectedItem: string) => {
     setSelectedArtist(selectedItem);
     setSearchInput(selectedItem);
+    onArtistSelect(selectedItem);
     setIsDropdownOpen(false); // Close the dropdown when an artist is selected
   };
 
@@ -76,6 +65,7 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
       if (timer) {
         clearTimeout(timer);
       }
+      // Call the lastfm api 500ms after user stops typing so that we're not spamming is constantly
       timer = setTimeout(handleSearch, 500);
     } else {
       setArtists([]);
@@ -89,18 +79,22 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
     };
   }, [searchInput, selectedArtist]); // Add selectedArtist as a dependency
 
-  console.log(error);
-
   return (
     <div className="flex flex-col">
+      <Label className="mb-2">Select artist</Label>
       <Input
+        className="w-[300px]"
         placeholder="Find artist"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
-      {error && <p className="text-red-600 ml-2 mt-2 text-xs">{error}</p>}
+      {error && (
+        <div className="bg-gray-600 px-6 py-2 text-white text-xs rounded-sm mt-1 dark:bg-sky-700">
+          {error}
+        </div>
+      )}
       {isDropdownOpen && (
-        <DropDown>
+        <DropDown label={null}>
           {artists.map((artist, index) => {
             return (
               <DropDownItem
