@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { extractImageUrls } from "@/utils/helpers";
 
 interface AlbumSelectProps {
   selectedArtist: string;
@@ -38,7 +39,7 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
         if (data?.topalbums?.album) {
           const albumsData = data.topalbums.album.map((album: any) => ({
             name: album.name,
-            images: album.image,
+            images: extractImageUrls(album.image),
           }));
           setAlbums(albumsData);
         } else {
