@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     query = `?method=artist.search&artist=${searchQuery}&limit=7&api_key=${apiKey}&format=json`;
   } else if (artist) {
     // If 'artist' is present, fetch top albums by the artist
-    query = `?method=artist.getTopAlbums&artist=${artist}&limit=8&api_key=${apiKey}&format=json`;
+    query = `?method=artist.getTopAlbums&artist=${artist}&limit=14&api_key=${apiKey}&format=json`;
   } else {
     // If neither 'album', 'search', nor 'artist' is present, return an error
     return new Response(

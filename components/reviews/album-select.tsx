@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { extractImageUrls } from "@/utils/helpers";
+import { albumExcludeStrings } from "@/utils/constants";
 
 interface AlbumSelectProps {
   selectedArtist: string;
@@ -36,12 +37,22 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
         const response = await fetch(`api/lastfm?artist=${selectedArtist}`);
         const data = await response.json();
 
-        if (data?.topalbums?.album) {
+        //TODO: Implement albums pagination to load more albums into dropdown
+
+        if (data.topalbums.album) {
           const albumsData = data.topalbums.album.map((album: any) => ({
             name: album.name,
             images: extractImageUrls(album.image),
           }));
-          setAlbums(albumsData);
+
+          // Filter the albums to exclude those with names containing any exclude strings
+          const filteredAlbums = albumsData.filter((album: any) => {
+            return !albumExcludeStrings.some((excludeString) =>
+              album.name.toLowerCase().includes(excludeString)
+            );
+          });
+
+          setAlbums(filteredAlbums);
         } else {
           setError("No albums found.");
           setAlbums([]);

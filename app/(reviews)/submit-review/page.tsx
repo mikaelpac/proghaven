@@ -50,7 +50,6 @@ const SubmitReview = () => {
           {selectedAlbum && selectedAlbum.images[2] && (
             <div className="mt-4">
               <Image
-                loader={}
                 src={selectedAlbum.images[2]}
                 alt="Album cover"
                 width={300}

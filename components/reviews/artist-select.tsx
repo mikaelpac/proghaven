@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"; // Update with your import path
 import { Label } from "@/components/ui/label"; // Update with your import path
 import DropDownItem from "../ui/dropdown/drop-down-item"; // Update with your import path
 import DropDown from "../ui/dropdown/drop-down"; // Update with your import path
-import { excludeStrings } from "@/utils/constants";
+import { artistExcludeStrings } from "@/utils/constants";
 
 interface ArtistSelectProps {
   onArtistSelect: (artist: string) => void;
@@ -43,7 +43,7 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
 
         if (artistNames && artistNames.length > 0) {
           const filteredArtists = artistNames.filter((artist: string) => {
-            return !excludeStrings.some((excludeString) =>
+            return !artistExcludeStrings.some((excludeString) =>
               artist.toLowerCase().includes(excludeString)
             );
           });

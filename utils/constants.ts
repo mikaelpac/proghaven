@@ -1,8 +1,9 @@
-export const excludeStrings = [
+export const artistExcludeStrings = [
   "ft.",
   "feat",
   ", the",
   ",",
+  "(",
   ".",
   "-",
   '"',
@@ -10,4 +11,16 @@ export const excludeStrings = [
   "www.",
   ".com",
   "&",
+];
+
+export const albumExcludeStrings = [
+  "ft.",
+  "feat",
+  "(",
+  '"',
+  "♪",
+  "[",
+  "@",
+  "www.",
+  ".com",
 ];
