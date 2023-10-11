@@ -1,80 +1,85 @@
 // ArtistSelect.tsx
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input"; // Update with your import path
-import DropDownItem from "../ui/dropdown/drop-down-item"; // Update with your import path
-import DropDown from "../ui/dropdown/drop-down"; // Update with your import path
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface AlbumSelectProps {
   selectedArtist: string;
-  onAlbumSelect: (album: string) => void;
+  onAlbumSelect: (album: Album | undefined) => void;
+}
+
+interface Album {
+  name: string;
+  images: string[];
 }
 
 const AlbumSelect: React.FC<AlbumSelectProps> = ({
-  onAlbumSelect,
   selectedArtist,
+  onAlbumSelect,
 }) => {
-  const [selectedAlbum, setSelectedAlbum] = useState<string>(""); // Add selectedArtist state
-  const [albums, setAlbums] = useState<string[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
-  const handleArtistSelect = (selectedItem: string) => {
-    setSelectedAlbum(selectedItem);
-    setIsDropdownOpen(false); // Close the dropdown when an artist is selected
-  };
-
-  console.log(selectedArtist);
 
   useEffect(() => {
-    const handleGetAlbums = async () => {
+    const fetchAlbums = async () => {
       try {
         setError(null);
         const response = await fetch(`api/lastfm?artist=${selectedArtist}`);
-
-        //TODO: need to probably fetch next pages too if they exist, lastfm only returns an array of 8 albums
         const data = await response.json();
-        const albumsData = data?.topalbums?.album?.map(
-          (album: any) => album.name
-        );
 
-        if (albumsData && albumsData.length > 1) {
+        if (data?.topalbums?.album) {
+          const albumsData = data.topalbums.album.map((album: any) => ({
+            name: album.name,
+            images: album.image,
+          }));
           setAlbums(albumsData);
-          //  setIsDropdownOpen(true);
         } else {
           setError("No albums found.");
           setAlbums([]);
-          //   setIsDropdownOpen(false);
         }
       } catch (error) {
-        setError("An error occurred while fetching albmus.");
+        setError("An error occurred while fetching albums.");
         console.error("Error:", error);
       }
     };
 
-    // Fetch list of albums when selected artist exists & changes
-    selectedArtist && handleGetAlbums();
+    selectedArtist && fetchAlbums();
   }, [selectedArtist]);
 
-  console.log(albums);
+  const handleAlbumSelect = (albumName: string) => {
+    const selectedAlbumObject = albums.find(
+      (album) => album.name === albumName
+    );
+    onAlbumSelect(selectedAlbumObject); // Pass album data to parent page
+  };
 
   return (
-    <div className="flex flex-col">
+    <div className="mt-4">
+      <Label>Select album</Label>
+      <Select onValueChange={handleAlbumSelect}>
+        <SelectTrigger className="w-[300px]">
+          <SelectValue placeholder="Select an album" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Albums</SelectLabel>
+            {albums.map((album) => (
+              <SelectItem value={album.name} key={album.name}>
+                {album.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
       {error && <p className="text-red-600 ml-2 mt-2 text-xs">{error}</p>}
-      {/*  {isDropdownOpen && (
-        <DropDown label={null}>
-          {artists.map((artist, index) => {
-            return (
-              <DropDownItem
-                name={artist}
-                Icon={null}
-                onClick={() => handleArtistSelect(artist)}
-                isLast={index === artists.length - 1}
-                key={artist}
-              />
-            );
-          })}
-        </DropDown>
-      )} */}
     </div>
   );
 };
