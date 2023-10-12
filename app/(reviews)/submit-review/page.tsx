@@ -6,7 +6,6 @@ import AlbumSelect from "@/components/reviews/album-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ReviewRating from "@/components/reviews/review-rating";
-
 import Image from "next/image";
 import Spinner from "@/components/ui/spinner";
 
@@ -28,11 +27,13 @@ const SubmitReview = () => {
   useEffect(() => {
     const fetchAlbumInfo = async () => {
       try {
+        //TODO: fix bug where selected Album name contains special chars and then request fails
         const response = await fetch(
           `api/lastfm?artist=${selectedArtist}&album=${selectedAlbum?.name}`
         );
         const data = await response.json();
-        console.log(data.album?.tags?.tag[1].name);
+        console.log(data);
+        console.log(data.album?.tags?.tag[0].name);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -44,8 +45,8 @@ const SubmitReview = () => {
   }, [selectedArtist, selectedAlbum]);
 
   const handleSelectedArtist = (artist: string) => {
-    setSelectedArtist(artist);
     setSelectedAlbum(undefined);
+    setSelectedArtist(artist);
   };
 
   const handleSelectedAlbum = (album: Album | undefined) => {
