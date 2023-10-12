@@ -1,4 +1,5 @@
-// ArtistSelect.tsx
+"use client";
+// Import the required modules and interfaces
 import React, { useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import {
@@ -12,7 +13,9 @@ import {
 } from "@/components/ui/select";
 import { extractImageUrls } from "@/utils/helpers";
 import { albumExcludeStrings } from "@/utils/constants";
+import { convertImageToBase64 } from "@/utils/helpers";
 
+// Define the AlbumSelectProps and Album interfaces
 interface AlbumSelectProps {
   selectedArtist: string;
   onAlbumSelect: (album: Album | undefined) => void;
@@ -21,14 +24,19 @@ interface AlbumSelectProps {
 interface Album {
   name: string;
   images: string[];
+  base64Image: string | undefined;
+  genre: string | null;
 }
 
+// AlbumSelect component
 const AlbumSelect: React.FC<AlbumSelectProps> = ({
   selectedArtist,
   onAlbumSelect,
 }) => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  // Helper function to convert an image URL to base64
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -37,13 +45,18 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
         const response = await fetch(`api/lastfm?artist=${selectedArtist}`);
         const data = await response.json();
 
-        //TODO: Implement albums pagination to load more albums into dropdown
-
         if (data.topalbums.album) {
-          const albumsData = data.topalbums.album.map((album: any) => ({
-            name: album.name,
-            images: extractImageUrls(album.image),
-          }));
+          const albumsData = await Promise.all(
+            data.topalbums.album.map(async (album: any) => {
+              const imageUrl = extractImageUrls(album.image)[0]; // Store the URL in a separate variable
+              const base64Image = await convertImageToBase64(imageUrl);
+              return {
+                name: album.name,
+                images: extractImageUrls(album.image),
+                base64Image: base64Image,
+              };
+            })
+          );
 
           // Filter the albums to exclude those with names containing any exclude strings
           const filteredAlbums = albumsData.filter((album: any) => {
@@ -70,8 +83,10 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
     const selectedAlbumObject = albums.find(
       (album) => album.name === albumName
     );
-    onAlbumSelect(selectedAlbumObject); // Pass album data to parent page
+    onAlbumSelect(selectedAlbumObject); // Pass album data to the parent component
   };
+
+  console.log(albums);
 
   return (
     <div className="mt-4">
