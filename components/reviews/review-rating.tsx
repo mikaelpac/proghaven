@@ -29,10 +29,10 @@ const ReviewRating: React.FC<ReviewRatingProps> = ({ onRatingSelect }) => {
   };
 
   return (
-    <div className="">
+    <div className="mt-2">
       <Label>Select Review Score</Label>
       <Select onValueChange={onRatingSelect}>
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger className="w-[300px]">
           <SelectValue placeholder="Select a rating" />
         </SelectTrigger>
         <SelectContent>

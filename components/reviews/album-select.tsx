@@ -88,7 +88,7 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
   console.log(albums);
 
   return (
-    <div className="mt-4">
+    <div className="mt-2">
       <Label>Select album</Label>
       <Select onValueChange={handleAlbumSelect}>
         <SelectTrigger className="w-[300px]">

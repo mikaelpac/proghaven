@@ -73,19 +73,22 @@ const SubmitReview = () => {
         </div>
       )}
 
-      <div className="w-full max-w-4xl mx-auto mt-6 mb-6 rounded-md flex flex-col lg:flex-row">
+      <div className="w-full max-w-[700px] mx-auto mt-6 mb-6 rounded-md flex flex-col lg:flex-row">
         <div className="w-full max-w-md mx-auto mb-6 lg:mb-0 lg:max-w-2xl lg:w-1/2 lg:mr-6">
           <ArtistSelect onArtistSelect={handleSelectedArtist} />
           {selectedArtist && (
-            <AlbumSelect
-              selectedArtist={selectedArtist}
-              onAlbumSelect={handleSelectedAlbum}
-            />
+            <div>
+              <AlbumSelect
+                selectedArtist={selectedArtist}
+                onAlbumSelect={handleSelectedAlbum}
+              />
+              <ReviewRating onRatingSelect={handleSelectedRating} />
+            </div>
           )}
         </div>
         <div className="w-full max-w-md mx-auto lg:max-w-2xl lg:w-1/2">
           {selectedAlbum && (
-            <div className="w-full h-96 rounded-md flex items-center justify-center">
+            <div className="w-full h-80 rounded-md flex items-start justify-center">
               <Image
                 src={selectedAlbum.images[3]}
                 alt="Album cover"
@@ -93,7 +96,7 @@ const SubmitReview = () => {
                 blurDataURL={selectedAlbum.base64Image}
                 width={300}
                 height={300}
-                className="rounded-md ease-in transition"
+                className="rounded-md ease-in transition mt-4"
               />
             </div>
           )}
@@ -101,8 +104,7 @@ const SubmitReview = () => {
       </div>
 
       {selectedAlbum && selectedArtist && (
-        <div className="w-full max-w-4xl mx-auto mb-6">
-          <ReviewRating onRatingSelect={handleSelectedRating} />
+        <div className="w-full max-w-[700px] mx-auto mb-6">
           <ReviewSummary />
           <ReviewText />
         </div>
