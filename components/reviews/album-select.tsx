@@ -25,7 +25,6 @@ interface Album {
   name: string;
   images: string[];
   base64Image: string | undefined;
-  genre: string | null;
 }
 
 // AlbumSelect component
