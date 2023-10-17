@@ -11,6 +11,7 @@ import ReviewSummary from "@/components/reviews/review-summary";
 import ReviewText from "@/components/reviews/review-text";
 import Spinner from "@/components/ui/spinner";
 import { genres } from "@/utils/musicGenres";
+import { Separator } from "@/components/ui/separator";
 
 const SubmitReview = () => {
   const [selectedArtist, setSelectedArtist] = useState<string>("");
@@ -64,17 +65,24 @@ const SubmitReview = () => {
     setSelectedRating(rating);
   };
 
+  console.log(artistGenres);
+
   return (
     <Container>
-      <div className="text-2xl text-center mt-6">Submit a Review</div>
+      <div className="text-2xl text-center mt-6 text-white ">
+        Submit a Review
+      </div>
       {selectedArtist && selectedAlbum && (
-        <div className="text-xl text-center mt-6">
-          {selectedArtist} - {selectedAlbum.name}
-        </div>
+        <>
+          <div className="text-xl mx-auto mt-6 p-2 text-white max-w-[700px]">
+            {selectedArtist} - {selectedAlbum.name}
+          </div>
+          <Separator className="max-w-[700px] mx-auto bg-[#a7a7a7]" />
+        </>
       )}
 
-      <div className="w-full max-w-[700px] mx-auto mt-6 mb-6 rounded-md flex flex-col lg:flex-row">
-        <div className="w-full max-w-md mx-auto mb-6 lg:mb-0 lg:max-w-2xl lg:w-1/2 lg:mr-6">
+      <div className="w-full max-w-[700px] mx-auto mt-6 mb-6 md:-96 rounded-md flex flex-col md:flex-row">
+        <div className=" mx-auto mb-6 lg:mb-0 lg:max-w-2xl w-full md:w-1/2 lg:mr-6">
           <ArtistSelect onArtistSelect={handleSelectedArtist} />
           {selectedArtist && (
             <div>
@@ -88,7 +96,7 @@ const SubmitReview = () => {
         </div>
         <div className="w-full max-w-md mx-auto lg:max-w-2xl lg:w-1/2">
           {selectedAlbum && (
-            <div className="w-full h-80 rounded-md flex items-start justify-center">
+            <div className="w-full rounded-sm flex items-start justify-center">
               <Image
                 src={selectedAlbum.images[3]}
                 alt="Album cover"
@@ -96,7 +104,7 @@ const SubmitReview = () => {
                 blurDataURL={selectedAlbum.base64Image}
                 width={300}
                 height={300}
-                className="rounded-md ease-in transition mt-4"
+                className="rounded-sm ease-in transition mt-4"
               />
             </div>
           )}

@@ -4,9 +4,13 @@ import { Label } from "../ui/label";
 
 const ReviewText = () => {
   return (
-    <div>
+    <div className="mt-2">
       <Label>Review Text</Label>
-      <Textarea placeholder="Write your review here" />
+      <Textarea
+        rows={15}
+        placeholder="Write your review here"
+        className="resize-y"
+      />
     </div>
   );
 };

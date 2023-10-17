@@ -32,12 +32,11 @@ const ReviewRating: React.FC<ReviewRatingProps> = ({ onRatingSelect }) => {
     <div className="mt-2">
       <Label>Select Review Score</Label>
       <Select onValueChange={onRatingSelect}>
-        <SelectTrigger className="w-[300px]">
-          <SelectValue placeholder="Select a rating" />
+        <SelectTrigger className="md:w-[300px] w-full bg-[#242424] text-white">
+          <SelectValue placeholder="Select rating" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Review Scores</SelectLabel>
             {reviewScores.map((score) => (
               <SelectItem value={score} key={score}>
                 {score}

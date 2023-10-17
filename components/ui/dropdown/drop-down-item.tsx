@@ -19,11 +19,11 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
   return (
     <>
       <li className="cursor-pointer" onClick={onClick}>
-        <div className="cursor-pointer px-6 py-2 hover:bg-gray-600 hover:text-white dark:hover:bg-sky-700">
+        <div className="cursor-pointer px-6 py-2">
           {Icon && <Icon />} {name}
         </div>
       </li>
-      {!isLast ? <Separator className="bg-gray-600" /> : null}
+      {/*       {!isLast ? <Separator className="bg-[#242424]" /> : null} */}
     </>
   );
 };

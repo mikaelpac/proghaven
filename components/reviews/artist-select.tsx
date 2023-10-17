@@ -83,7 +83,7 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
     <div className="flex flex-col">
       <Label className="mb-2">Select artist</Label>
       <Input
-        className="w-[300px]"
+        className="md:w-[300px] w-full bg-[#242424] text-white relative"
         placeholder="Find artist"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
@@ -94,19 +94,21 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
         </div>
       )}
       {isDropdownOpen && (
-        <DropDown label={null}>
-          {artists.map((artist, index) => {
-            return (
-              <DropDownItem
-                name={artist}
-                Icon={null}
-                onClick={() => handleArtistSelect(artist)}
-                isLast={index === artists.length - 1}
-                key={artist}
-              />
-            );
-          })}
-        </DropDown>
+        <div className="top-28">
+          <DropDown label={null}>
+            {artists.map((artist, index) => {
+              return (
+                <DropDownItem
+                  name={artist}
+                  Icon={null}
+                  onClick={() => handleArtistSelect(artist)}
+                  isLast={index === artists.length - 1}
+                  key={artist}
+                />
+              );
+            })}
+          </DropDown>
+        </div>
       )}
     </div>
   );

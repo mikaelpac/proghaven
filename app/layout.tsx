@@ -35,7 +35,7 @@ export default async function RootLayout({
         <SupabaseProvider>
           <SupabaseAuthProvider serverSession={session}>
             <Navbar />
-            <div className="flex flex-col min-h-screen bg-slate-300">
+            <div className="flex flex-col min-h-screen bg-[#151813]">
               <div className="flex-grow">{children}</div>
             </div>
             <Footer />

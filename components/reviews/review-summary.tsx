@@ -6,7 +6,13 @@ const ReviewSummary = () => {
   return (
     <div>
       <Label>Review summary</Label>
-      <Textarea placeholder="Type your review summary here. The summary should bring emphasize your review's main points." />
+      <Textarea
+        className="resize-none"
+        rows={3}
+        minLength={10}
+        maxLength={300}
+        placeholder="Type your review summary here. The summary should bring emphasize your review's main points."
+      />
     </div>
   );
 };

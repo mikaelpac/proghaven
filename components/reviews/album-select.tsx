@@ -15,7 +15,6 @@ import { extractImageUrls } from "@/utils/helpers";
 import { albumExcludeStrings } from "@/utils/constants";
 import { convertImageToBase64 } from "@/utils/helpers";
 
-// Define the AlbumSelectProps and Album interfaces
 interface AlbumSelectProps {
   selectedArtist: string;
   onAlbumSelect: (album: Album | undefined) => void;
@@ -27,15 +26,12 @@ interface Album {
   base64Image: string | undefined;
 }
 
-// AlbumSelect component
 const AlbumSelect: React.FC<AlbumSelectProps> = ({
   selectedArtist,
   onAlbumSelect,
 }) => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  // Helper function to convert an image URL to base64
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -91,12 +87,11 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
     <div className="mt-2">
       <Label>Select album</Label>
       <Select onValueChange={handleAlbumSelect}>
-        <SelectTrigger className="w-[300px]">
-          <SelectValue placeholder="Select an album" />
+        <SelectTrigger className="md:w-[300px] w-full bg-[#242424] text-white">
+          <SelectValue placeholder="Select album" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Albums</SelectLabel>
             {albums.map((album) => (
               <SelectItem value={album.name} key={album.name}>
                 {album.name}
