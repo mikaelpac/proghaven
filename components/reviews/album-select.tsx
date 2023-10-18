@@ -90,10 +90,14 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
         <SelectTrigger className="md:w-[300px] w-full bg-[#242424] text-white">
           <SelectValue placeholder="Select album" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-[#242424] ">
           <SelectGroup>
             {albums.map((album) => (
-              <SelectItem value={album.name} key={album.name}>
+              <SelectItem
+                value={album.name}
+                key={album.name}
+                className="bg-[#242424] text-[#A7A7A7] hover:bg-[#a7a7a7] hover:text-white"
+              >
                 {album.name}
               </SelectItem>
             ))}

@@ -35,10 +35,14 @@ const ReviewRating: React.FC<ReviewRatingProps> = ({ onRatingSelect }) => {
         <SelectTrigger className="md:w-[300px] w-full bg-[#242424] text-white">
           <SelectValue placeholder="Select rating" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-[#242424]">
           <SelectGroup>
             {reviewScores.map((score) => (
-              <SelectItem value={score} key={score}>
+              <SelectItem
+                value={score}
+                key={score}
+                className="bg-[#242424] text-[#A7A7A7] hover:bg-[#a7a7a7] hover:text-white"
+              >
                 {score}
               </SelectItem>
             ))}

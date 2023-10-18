@@ -65,10 +65,11 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
       if (timer) {
         clearTimeout(timer);
       }
-      // Call the lastfm api 500ms after user stops typing so that we're not spamming is constantly
+      // Call the lastfm api 500ms after user stops typing so that we're not spamming it constantly
       timer = setTimeout(handleSearch, 500);
     } else {
       setArtists([]);
+      handleArtistSelect("");
       setIsDropdownOpen(false); // Close the dropdown when the search input is empty
     }
 

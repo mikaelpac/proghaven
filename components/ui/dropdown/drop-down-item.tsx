@@ -19,7 +19,7 @@ const DropDownItem: React.FC<DropDownItemProps> = ({
   return (
     <>
       <li className="cursor-pointer" onClick={onClick}>
-        <div className="cursor-pointer px-6 py-2">
+        <div className="cursor-pointer px-3 py-2   bg-[#242424] text-[#A7A7A7] hover:bg-[#a7a7a7] hover:text-white">
           {Icon && <Icon />} {name}
         </div>
       </li>

@@ -18,9 +18,10 @@ const SubmitReview = () => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | undefined>(
     undefined
   );
-  const [albumInfo, setAlbumInfo] = useState(null);
   const [selectedRating, setSelectedRating] = useState<string>("");
   const [artistGenres, setArtistGenres] = useState<string[] | null>(null);
+  const [reviewSummary, setReviewSummary] = useState<string>("");
+  const [reviewText, setReviewText] = useState<string>("");
 
   interface Album {
     name: string;
@@ -65,7 +66,19 @@ const SubmitReview = () => {
     setSelectedRating(rating);
   };
 
-  console.log(artistGenres);
+  const handleReviewSummaryChange = (newSummary: string) => {
+    setReviewSummary(newSummary);
+  };
+
+  const handleReviewTextChange = (newText: string) => {
+    setReviewText(newText);
+  };
+
+  const handleSubmitReview = () => {
+    console.log("submit review");
+  };
+
+  console.log(selectedAlbum);
 
   return (
     <Container>
@@ -113,8 +126,9 @@ const SubmitReview = () => {
 
       {selectedAlbum && selectedArtist && (
         <div className="w-full max-w-[700px] mx-auto mb-6">
-          <ReviewSummary />
-          <ReviewText />
+          <ReviewSummary onReviewSummaryChange={handleReviewSummaryChange} />
+          <ReviewText onReviewTextChange={handleReviewTextChange} />
+          <Button>Submit review</Button>
         </div>
       )}
     </Container>

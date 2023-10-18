@@ -28,6 +28,7 @@ const SignUpForm = () => {
     // Check if passwords match
     if (password !== passwordConfirm) {
       setError("Passwords do not match");
+      setLoading(false);
       return;
     }
 
@@ -61,7 +62,7 @@ const SignUpForm = () => {
       {/* Main Container */}
       <div className="w-full max-w-lg bg-white p-6 rounded-md">
         {/* Text */}
-        <h1 className="text-4xl font-bold text-center">Sign up</h1>
+        <h1 className="text-4xl font-bold">Sign up</h1>
 
         {/* Form Container */}
         <form onSubmit={handleSubmit}>
@@ -70,6 +71,7 @@ const SignUpForm = () => {
             <div className="space-y-2">
               <Label>Email</Label>
               <Input
+                className="w-full"
                 value={email}
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -78,6 +80,7 @@ const SignUpForm = () => {
             <div className="space-y-2">
               <Label>Username</Label>
               <Input
+                className="w-full"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
@@ -85,6 +88,7 @@ const SignUpForm = () => {
             <div className="space-y-2">
               <Label>Password</Label>
               <Input
+                className="w-full"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -93,6 +97,7 @@ const SignUpForm = () => {
             <div className="space-y-2">
               <Label>Confirm password</Label>
               <Input
+                className="w-full"
                 type="password"
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
