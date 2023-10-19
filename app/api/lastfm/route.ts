@@ -7,7 +7,6 @@ const baseUrl = "http://ws.audioscrobbler.com/2.0/";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  console.log(searchParams);
   const artist = searchParams.get("artist");
   const album = searchParams.get("album");
   const searchQuery = searchParams.get("search");
