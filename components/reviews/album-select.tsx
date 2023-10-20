@@ -16,7 +16,7 @@ import { albumExcludeStrings } from "@/utils/constants";
 import { convertImageToBase64 } from "@/utils/helpers";
 
 interface AlbumSelectProps {
-  selectedArtist: string;
+  artistName: string;
   onAlbumSelect: (album: Album | undefined) => void;
 }
 
@@ -27,7 +27,7 @@ interface Album {
 }
 
 const AlbumSelect: React.FC<AlbumSelectProps> = ({
-  selectedArtist,
+  artistName,
   onAlbumSelect,
 }) => {
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -37,7 +37,7 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
     const fetchAlbums = async () => {
       try {
         setError(null);
-        const response = await fetch(`api/lastfm?artist=${selectedArtist}`);
+        const response = await fetch(`api/lastfm?artist=${artistName}`);
         const data = await response.json();
 
         if (data.topalbums.album) {

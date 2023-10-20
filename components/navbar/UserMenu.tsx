@@ -36,7 +36,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ username, signOut }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <UserCircle2 size={28} color="red" />
+        <UserCircle2 size={28} color="red" className="cursor-pointer" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{username}</DropdownMenuLabel>

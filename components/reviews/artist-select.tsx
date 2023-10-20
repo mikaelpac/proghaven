@@ -1,18 +1,23 @@
-// ArtistSelect.tsx
+"use client";
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input"; // Update with your import path
-import { Label } from "@/components/ui/label"; // Update with your import path
-import DropDownItem from "../ui/dropdown/drop-down-item"; // Update with your import path
-import DropDown from "../ui/dropdown/drop-down"; // Update with your import path
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import DropDownItem from "../ui/dropdown/drop-down-item";
+import DropDown from "../ui/dropdown/drop-down";
 import { artistExcludeStrings } from "@/utils/constants";
 
 interface ArtistSelectProps {
-  onArtistSelect: (artist: string) => void;
+  onArtistSelect: (artist: Artist | undefined) => void;
+}
+
+interface Artist {
+  name: string;
+  genres: string[];
 }
 
 const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
   const [searchInput, setSearchInput] = useState<string>("");
-  const [selectedArtist, setSelectedArtist] = useState<string>(""); // Add selectedArtist state
+  const [selectedArtist, setSelectedArtist] = useState<string>("");
   const [artists, setArtists] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -21,14 +26,16 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
   const handleArtistSelect = (selectedItem: string) => {
     setSelectedArtist(selectedItem);
     setSearchInput(selectedItem);
-    onArtistSelect(selectedItem);
-    setIsDropdownOpen(false); // Close the dropdown when an artist is selected
+
+    // Pass the entire Artist object to the onArtistSelect function
+    onArtistSelect({ name: selectedItem, genres: [] });
+
+    setIsDropdownOpen(false);
   };
 
   useEffect(() => {
     const handleSearch = async () => {
       if (searchInput === selectedArtist) {
-        // Prevent search when the search input is the same as the selected artist
         return;
       }
 
@@ -49,11 +56,11 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
           });
 
           setArtists(filteredArtists);
-          setIsDropdownOpen(true); // Open the dropdown when artists are found
+          setIsDropdownOpen(true);
         } else {
           setError("No artists found.");
           setArtists([]);
-          setIsDropdownOpen(false); // Close the dropdown when no artists are found
+          setIsDropdownOpen(false);
         }
       } catch (error) {
         setError("An error occurred while fetching artists.");
@@ -65,12 +72,11 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
       if (timer) {
         clearTimeout(timer);
       }
-      // Call the lastfm api 500ms after user stops typing so that we're not spamming it constantly
       timer = setTimeout(handleSearch, 500);
     } else {
       setArtists([]);
       handleArtistSelect("");
-      setIsDropdownOpen(false); // Close the dropdown when the search input is empty
+      setIsDropdownOpen(false);
     }
 
     return () => {
@@ -78,7 +84,7 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
         clearTimeout(timer);
       }
     };
-  }, [searchInput, selectedArtist]); // Add selectedArtist as a dependency
+  }, [searchInput, selectedArtist]);
 
   return (
     <div className="flex flex-col">
@@ -97,17 +103,15 @@ const ArtistSelect: React.FC<ArtistSelectProps> = ({ onArtistSelect }) => {
       {isDropdownOpen && (
         <div className="top-28">
           <DropDown label={null}>
-            {artists.map((artist, index) => {
-              return (
-                <DropDownItem
-                  name={artist}
-                  Icon={null}
-                  onClick={() => handleArtistSelect(artist)}
-                  isLast={index === artists.length - 1}
-                  key={artist}
-                />
-              );
-            })}
+            {artists.map((artist, index) => (
+              <DropDownItem
+                name={artist}
+                Icon={null}
+                onClick={() => handleArtistSelect(artist)}
+                isLast={index === artists.length - 1}
+                key={artist}
+              />
+            ))}
           </DropDown>
         </div>
       )}
