@@ -32,7 +32,6 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
 }) => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
@@ -41,26 +40,33 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
         const data = await response.json();
 
         if (data.topalbums.album) {
-          const albumsData = await Promise.all(
-            data.topalbums.album.map(async (album: any) => {
-              const imageUrl = extractImageUrls(album.image)[0]; // Store the URL in a separate variable
-              const base64Image = await convertImageToBase64(imageUrl);
-              return {
-                name: album.name,
-                images: extractImageUrls(album.image),
-                base64Image: base64Image,
-              };
-            })
-          );
-
-          // Filter the albums to exclude those with names containing any exclude strings
-          const filteredAlbums = albumsData.filter((album: any) => {
-            return !albumExcludeStrings.some((excludeString) =>
-              album.name.toLowerCase().includes(excludeString)
+          const albumsData = data.topalbums.album
+            .map((album: any) => ({
+              name: album.name,
+              images: extractImageUrls(album.image),
+            }))
+            .filter(
+              (album: any) =>
+                !albumExcludeStrings.some((excludeString) =>
+                  album.name.toLowerCase().includes(excludeString)
+                )
             );
+
+          setAlbums(albumsData);
+
+          // Fetch base64 images for each album in parallel
+          const base64Promises = albumsData.map(async (album: Album) => {
+            const imageUrl = album.images[0]; // Use the first image URL
+            const base64Image = await convertImageToBase64(imageUrl);
+            return {
+              ...album,
+              base64Image: base64Image,
+            };
           });
 
-          setAlbums(filteredAlbums);
+          // Wait for all base64 image promises to resolve and update the state
+          const albumsWithBase64Images = await Promise.all(base64Promises);
+          setAlbums(albumsWithBase64Images);
         } else {
           setError("No albums found.");
           setAlbums([]);
@@ -71,8 +77,8 @@ const AlbumSelect: React.FC<AlbumSelectProps> = ({
       }
     };
 
-    selectedArtist && fetchAlbums();
-  }, [selectedArtist]);
+    artistName && fetchAlbums();
+  }, [artistName]);
 
   const handleAlbumSelect = (albumName: string) => {
     const selectedAlbumObject = albums.find(

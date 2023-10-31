@@ -1,4 +1,4 @@
-export const genres = [
+export const genres: string[] = [
   "12-bar blues",
   "2 tone",
   "2-step garage",
@@ -1652,3 +1652,5 @@ export const genres = [
   "zydeco",
   "čalgija",
 ];
+
+export const genresSet = new Set(genres);
