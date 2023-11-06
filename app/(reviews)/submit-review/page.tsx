@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import ReviewRating from "@/components/reviews/review-rating";
 import ReviewSummary from "@/components/reviews/review-summary";
 import ReviewText from "@/components/reviews/review-text";
+import ReviewForm from "@/components/reviews/review-form";
 import Spinner from "@/components/ui/spinner";
 import { genresSet } from "@/utils/musicGenres";
 import { Separator } from "@/components/ui/separator";
@@ -17,22 +18,11 @@ const SubmitReview = () => {
   const [artist, setArtist] = useState<Artist | undefined>();
   const [album, setAlbum] = useState<Album | undefined>();
   const [base64Img, setBase64Img] = useState<string>("");
-
-  const [review, setReview] = useState<Review | undefined>();
-  const [selectedRating, setSelectedRating] = useState<number>();
   const [artistGenres, setArtistGenres] = useState<string[] | null>(null);
-  const [reviewSummary, setReviewSummary] = useState<string>("");
-  const [reviewText, setReviewText] = useState<string>("");
 
   interface Artist {
     name: string;
     genres: string[];
-  }
-
-  interface Review {
-    reviewSummary: string;
-    reviewText: string;
-    reviewRating: number;
   }
 
   interface Album {
@@ -74,10 +64,9 @@ const SubmitReview = () => {
   };
 
   const handleSubmitReview = () => {
+    // First handle album and artist queries
     console.log("submit review");
   };
-
-  console.log(artist);
 
   return (
     <Container>
@@ -118,12 +107,13 @@ const SubmitReview = () => {
           )}
         </div>
       </div>
-
-      {artist && album && (
-        <div className="w-full max-w-[700px] mx-auto mb-6">
-          <Button>Submit review</Button>
-        </div>
-      )}
+      <div>
+        {artist && album && (
+          <div>
+            <ReviewForm onSubmitReview={handleSubmitReview} />
+          </div>
+        )}
+      </div>
     </Container>
   );
 };
