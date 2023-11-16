@@ -110,7 +110,7 @@ const SubmitReview = () => {
       <div>
         {artist && album && (
           <div>
-            <ReviewForm onSubmitReview={handleSubmitReview} />
+            <ReviewForm artist={artist} album={album} />
           </div>
         )}
       </div>
