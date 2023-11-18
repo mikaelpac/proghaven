@@ -40,7 +40,6 @@ export interface Database {
           album_name: string
           artist_id: number | null
           cover_image_url: string | null
-          genre_id: number | null
           release_year: number | null
         }
         Insert: {
@@ -48,7 +47,6 @@ export interface Database {
           album_name: string
           artist_id?: number | null
           cover_image_url?: string | null
-          genre_id?: number | null
           release_year?: number | null
         }
         Update: {
@@ -56,91 +54,35 @@ export interface Database {
           album_name?: string
           artist_id?: number | null
           cover_image_url?: string | null
-          genre_id?: number | null
           release_year?: number | null
         }
         Relationships: [
           {
             foreignKeyName: "albums_artist_id_fkey"
             columns: ["artist_id"]
+            isOneToOne: false
             referencedRelation: "artists"
             referencedColumns: ["artist_id"]
-          },
-          {
-            foreignKeyName: "albums_genre_id_fkey"
-            columns: ["genre_id"]
-            referencedRelation: "genres"
-            referencedColumns: ["genre_id"]
           }
         ]
       }
       artists: {
         Row: {
+          artist: string
           artist_id: number
-          artist_name: string
+          genres: string[] | null
         }
         Insert: {
+          artist: string
           artist_id?: number
-          artist_name: string
+          genres?: string[] | null
         }
         Update: {
+          artist?: string
           artist_id?: number
-          artist_name?: string
+          genres?: string[] | null
         }
         Relationships: []
-      }
-      genre_artists: {
-        Row: {
-          artist_id: number
-          genre_id: number
-        }
-        Insert: {
-          artist_id: number
-          genre_id: number
-        }
-        Update: {
-          artist_id?: number
-          genre_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "genre_artists_artist_id_fkey"
-            columns: ["artist_id"]
-            referencedRelation: "artists"
-            referencedColumns: ["artist_id"]
-          },
-          {
-            foreignKeyName: "genre_artists_genre_id_fkey"
-            columns: ["genre_id"]
-            referencedRelation: "genres"
-            referencedColumns: ["genre_id"]
-          }
-        ]
-      }
-      genres: {
-        Row: {
-          genre_id: number
-          genre_name: string
-          parent_genre_id: number | null
-        }
-        Insert: {
-          genre_id?: number
-          genre_name: string
-          parent_genre_id?: number | null
-        }
-        Update: {
-          genre_id?: number
-          genre_name?: string
-          parent_genre_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "genres_parent_genre_id_fkey"
-            columns: ["parent_genre_id"]
-            referencedRelation: "genres"
-            referencedColumns: ["genre_id"]
-          }
-        ]
       }
       profiles: {
         Row: {
@@ -171,6 +113,7 @@ export interface Database {
           {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -214,12 +157,14 @@ export interface Database {
           {
             foreignKeyName: "reviews_album_id_fkey"
             columns: ["album_id"]
+            isOneToOne: false
             referencedRelation: "albums"
             referencedColumns: ["album_id"]
           },
           {
             foreignKeyName: "reviews_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -279,6 +224,7 @@ export interface Database {
           {
             foreignKeyName: "buckets_owner_fkey"
             columns: ["owner"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -346,12 +292,14 @@ export interface Database {
           {
             foreignKeyName: "objects_bucketId_fkey"
             columns: ["bucket_id"]
+            isOneToOne: false
             referencedRelation: "buckets"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "objects_owner_fkey"
             columns: ["owner"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

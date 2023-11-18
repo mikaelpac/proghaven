@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { reviewScores } from "@/utils/constants";
 import { Button } from "../ui/button";
+import { checkOrInsertArtist } from "@/utils/apiFunctions";
 
 interface ReviewFormProps {
   artist: Artist;
@@ -62,31 +63,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ artist, album }) => {
     // hey chatgpt try to call the Get artist by name thing here. artist name is in artist.name
     try {
       // Call the function to get artist information
-      const artistData = await getArtistByName(artist.name);
+      const artistData = await checkOrInsertArtist(artist.name, artist.genres);
+
+      console.log(artistData);
 
       // Handle the artist data as needed
       console.log("Artist Data:", artistData);
     } catch (error) {
       console.error("Error fetching artist data:", error);
-    }
-  };
-
-  const getArtistByName = async (name: string): Promise<Artist | null> => {
-    try {
-      const response = await fetch(
-        `/api/artist?name=${encodeURIComponent(name)}`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch artist data. Status: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching artist data:", error);
-      return null;
     }
   };
 
